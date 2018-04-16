@@ -57,15 +57,12 @@ namespace ITF_WPF_CRUD
                 Update subWindow = new Update(getID());
                 subWindow.Show();
             }
-            else if (sender == reset)
-            {
-                //this.myDatabaseInfos.ItemsSource = null;
-
-            }
             else if (sender == delete)
             {
-                //Delete subWindow = new Delete();
-                //subWindow.Show();
+                int Id = getID();
+                var deleteMember = myData.userMasks.Where(m => m.id == Id).Single();
+                myData.userMasks.Remove(deleteMember);
+                myData.SaveChanges();
             }
             else
             {
