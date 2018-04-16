@@ -35,5 +35,31 @@ namespace ITF_WPF_CRUD
         {
             myData.Database.Connection.Close();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (myDatagrid.SelectedIndex != -1)
+            {
+                userMask selecteditem = (userMask)myDatagrid.Items[myDatagrid.SelectedIndex];
+                MessageBox.Show(selecteditem.username + selecteditem.id);
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource loginEntitiesViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("loginEntitiesViewSource")));
+            // Laden Sie Daten durch Festlegen der CollectionViewSource.Source-Eigenschaft:
+            // loginEntitiesViewSource.Source = [generische Datenquelle]
+        }
+
+        private void myDatagrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (myDatagrid.SelectedIndex != -1)
+            {
+                userMask selecteditem = (userMask)myDatagrid.Items[myDatagrid.SelectedIndex];
+                MessageBox.Show("ID: " + selecteditem.id  + " Username: " + selecteditem.username + " Pass: " + selecteditem.password);
+            }
+        }
     }
 }

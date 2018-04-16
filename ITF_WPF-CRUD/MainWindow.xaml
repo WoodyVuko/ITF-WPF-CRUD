@@ -5,13 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITF_WPF_CRUD"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Closed="Window_Closed">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="12*"/>
-            <ColumnDefinition Width="35*"/>
-        </Grid.ColumnDefinitions>
-        <DataGrid x:Name="myDatagrid" HorizontalAlignment="Left" Height="280" VerticalAlignment="Top" Width="512" Grid.ColumnSpan="2"/>
+        Title="MainWindow" Height="350" Width="525" Closed="Window_Closed" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="loginEntitiesViewSource" d:DesignSource="{d:DesignInstance {x:Type local:loginEntities}, CreateList=True}"/>
+        <CollectionViewSource x:Key="loginEntitiesuserMasksViewSource" Source="{Binding userMasks, Source={StaticResource loginEntitiesViewSource}}"/>
+    </Window.Resources>
+    <StackPanel DataContext="{StaticResource loginEntitiesuserMasksViewSource}" Margin="0,0,0,-9">
 
-    </Grid>
+        <DataGrid x:Name="myDatagrid" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="271" ItemsSource="{Binding}" Margin="0" RowDetailsVisibilityMode="VisibleWhenSelected" Width="507" HorizontalAlignment="Left" VerticalAlignment="Top" MouseDoubleClick="myDatagrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idColumn" Binding="{Binding id}" Header="id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="passwordColumn" Binding="{Binding password}" Header="password" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="usernameColumn" Binding="{Binding username}" Header="username" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="read" Content="refresh" Click="Button_Click"/>
+        <StackPanel Orientation="Horizontal" Width="150">
+            <Button x:Name="create" Content="Create" Click="Button_Click"/>
+            <Button x:Name="update" Content="Update" Click="Button_Click"/>
+            <Button x:Name="delete" Content="Delete" Click="Button_Click"/>
+            <Button x:Name="reset" Content="Reset" Click="Button_Click"/>
+
+
+        </StackPanel>
+
+    </StackPanel>
 </Window>
