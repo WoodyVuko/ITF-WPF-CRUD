@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity;
+using System.Data;
 
 namespace ITF_WPF_CRUD
 {
@@ -20,9 +22,18 @@ namespace ITF_WPF_CRUD
     /// </summary>
     public partial class MainWindow : Window
     {
+        loginEntities myData;
+
         public MainWindow()
         {
+            myData = new loginEntities();
             InitializeComponent();
+            this.myDatagrid.ItemsSource = myData.userMasks.ToList();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            myData.Database.Connection.Close();
         }
     }
 }
