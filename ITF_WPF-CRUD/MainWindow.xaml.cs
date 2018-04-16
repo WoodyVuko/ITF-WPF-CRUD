@@ -33,15 +33,43 @@ namespace ITF_WPF_CRUD
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            myData.Database.Connection.Close();
+            Application.Current.Shutdown();
+        }
+
+
+        private void updateData()
+        {
+            myData = null;
+            myData = new loginEntities();
+            this.myDatagrid.ItemsSource = myData.userMasks.ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (myDatagrid.SelectedIndex != -1)
+            System.Windows.Data.CollectionViewSource loginEntitiesViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("loginEntitiesViewSource")));
+            if (sender == create)
             {
-                userMask selecteditem = (userMask)myDatagrid.Items[myDatagrid.SelectedIndex];
-                MessageBox.Show(selecteditem.username + selecteditem.id);
+                Insert subWindow = new Insert();
+                subWindow.Show();
+            }
+            else if (sender == update)
+            {
+                Update subWindow = new Update(getID());
+                subWindow.Show();
+            }
+            else if (sender == reset)
+            {
+                //this.myDatabaseInfos.ItemsSource = null;
+
+            }
+            else if (sender == delete)
+            {
+                //Delete subWindow = new Delete();
+                //subWindow.Show();
+            }
+            else
+            {
+                updateData();
             }
         }
 
@@ -60,6 +88,17 @@ namespace ITF_WPF_CRUD
                 userMask selecteditem = (userMask)myDatagrid.Items[myDatagrid.SelectedIndex];
                 MessageBox.Show("ID: " + selecteditem.id  + " Username: " + selecteditem.username + " Pass: " + selecteditem.password);
             }
+        }
+
+        int getID()
+        {
+            int temp = 0;
+            if (myDatagrid.SelectedIndex != -1)
+            {
+                userMask selecteditem = (userMask)myDatagrid.Items[myDatagrid.SelectedIndex];
+                temp = selecteditem.id;
+            }
+            return temp;
         }
     }
 }
